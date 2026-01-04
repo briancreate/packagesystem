@@ -1,5 +1,10 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 const package = require('../../../database/schemas/package');
+const forumChannels = {
+    liveries: 1457165386783920239,
+    clothing: 1457165388872679486,
+    code: 1457165391695450132
+};
 
 // Helper Functions
 function extractAssetId(raw) {
@@ -76,12 +81,10 @@ module.exports = {
         await data.save();
     }
 
-    const forumChannels = {
-        liveries: 1457165386783920239,
-        clothing: 1457165388872679486,
-        code: 1457165391695450132
-    };
-    const forum = await interaction.client.channels.fetch(forumChannels[forumChoice]);
+    const forum = await interaction.guild.channels.fetch(
+        forumChannels[forumChoice]
+    );
+
     const post = await forum.threads.create({
         name: data.name,
         message: { files: [image.url] }
