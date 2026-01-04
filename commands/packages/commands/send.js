@@ -103,7 +103,7 @@ module.exports = {
 
     const attachment = [
         new AttachmentBuilder(
-            path.join(__dirname, '../../database/assets/banner_footer.png'),
+            path.join(__dirname, '../../../database/assets/banner_footer.png'),
             { name: 'footer.png' }
         )
     ];
