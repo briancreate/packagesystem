@@ -5,8 +5,8 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 module.exports = {
   data: (() => {
     const builder = new SlashCommandBuilder()
-      .setName("giveaway")
-      .setDescription("Giveaway..")
+      .setName("pack")
+      .setDescription("...")
       .setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
 
     const subFolder = path.join(__dirname, "commands");
