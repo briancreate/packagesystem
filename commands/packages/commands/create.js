@@ -19,6 +19,13 @@ module.exports = {
     const link = new TextInputBuilder()
       .setCustomId("pack:link")
       .setLabel("Purchase Link")
+      .setPlaceholder("Link for Normal Users")
+      .setStyle(TextInputStyle.Short)
+      .setRequired(true);
+    const pluslink = new TextInputBuilder()
+      .setCustomId("pack:pluslink")
+      .setLabel("Purchase Link 2")
+      .setPlaceholder("Link for Premium Users")
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
     const packer = new TextInputBuilder()
@@ -40,6 +47,7 @@ module.exports = {
     modal.addComponents(
         new ActionRowBuilder().addComponents(name),
         new ActionRowBuilder().addComponents(link),
+        new ActionRowBuilder().addComponents(pluslink),
         new ActionRowBuilder().addComponents(packer),
         new ActionRowBuilder().addComponents(price),
         new ActionRowBuilder().addComponents(description)
