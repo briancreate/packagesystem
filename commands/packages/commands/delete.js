@@ -1,3 +1,4 @@
+const { SlashCommandSubcommandBuilder, MessageFlags } = require('discord.js');
 const package = require('../../../database/schemas/package');
 
 module.exports = {
