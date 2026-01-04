@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const x = new mongoose.Schema(
   {
+    packId: { type: String, unique: true, required: true, index: true },
     name: { type: String, required: true },
     purchaselink: { type: String, required: true },
     purchasepluslink: { type: String, required: true },

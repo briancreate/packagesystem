@@ -1,5 +1,4 @@
 const { Events, MessageFlags } = require('discord.js');
-const { v4: uuidv4 } = require('uuid');
 const package = require('../../database/schemas/package');
 
 // Helper Functions
@@ -40,7 +39,7 @@ function formatItems(rawValue) {
 
   return {
     itemsList: splitItems,
-    display: splitItems.map((item) => `<:dot:1410535739766341674> ${item}`).join("\n"),
+    display: splitItems.map((item) => `${item}`).join("\n"),
   };
 } ///
 function parsePackerId(rawValue) {
@@ -82,14 +81,13 @@ module.exports = {
 
         const packerId = parsePackerId(raw.packer);
         const assetId = extractAssetId(raw.link);
-
-
+        const packId = crypto.randomBytes(6).toString("hex");
 
         // Duplicate Pack Check
         const duplicate = await package.findOne({ assetId });
         if (duplicate) {
             return interaction.reply({
-                content: "Duplicate Package",
+                content: "<:crossmark:1457408456980959486> SAVE_FAILED: Duplicate Pack!",
                 flags: MessageFlags.Ephemeral
             });
         }
@@ -97,6 +95,7 @@ module.exports = {
         // Save Created Pack
         try {
             const created = await package.create({
+                packId: packId,
                 name: raw.name,
                 purchaselink: raw.link,
                 purchasepluslink: raw.pluslink,
@@ -107,13 +106,13 @@ module.exports = {
             });
 
             await interaction.reply({
-                content: "saved",
+                content: `<:checkmark:1457408406607364257> SAVE_SUCCESS: ${packName} Saved!`,
                 flags: MessageFlags.Ephemeral
             });
         } catch (error) {
-            console.error("failed", error);
+            console.log("[ERROR]", error);
             await interaction.reply({
-                content: "error",
+                content: "<:crossmark:1457408456980959486> SAVE_FAILED: Error Occured!",
                 flags: MessageFlags.Ephemeral
             });
         }
