@@ -27,7 +27,7 @@ function extractAssetId(raw) {
 module.exports = {
   data: new SlashCommandSubcommandBuilder()
     .setName("send")
-    .setDescription("‎ ")
+    .setDescription("Pack Management..")
     .addStringOption((option) =>
       option
         .setName('package')
