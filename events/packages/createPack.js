@@ -106,7 +106,7 @@ module.exports = {
             });
 
             await interaction.reply({
-                content: `<:checkmark:1457408406607364257> SAVE_SUCCESS: ${packName} Saved!`,
+                content: `<:checkmark:1457408406607364257> SAVE_SUCCESS: ${packName} Saved! ID:${packId}`,
                 flags: MessageFlags.Ephemeral
             });
         } catch (error) {

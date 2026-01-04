@@ -1,3 +1,29 @@
+const { SlashCommandSubcommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
+const package = require('../../database/schemas/package');
+
+// Helper Functions
+function extractAssetId(raw) {
+  if (!raw) return null;
+  const link = String(raw).trim();
+
+  try {
+    const url = new URL(link);
+
+    const segments = url.pathname.split("/").filter(Boolean);
+    for (const segment of segments) {
+      if (/^\d+$/.test(segment)) return Number(segment);
+    }
+
+    const searchKeys = ["assetId", "id", "itemId", "gamepassId"];
+    for (const key of searchKeys) {
+      const value = url.searchParams.get(key);
+      if (value && /^\d+$/.test(value)) return Number(value);
+    }
+  } catch (_) {}
+  const fallback = link.match(/(\d{4,})/);
+  return fallback ? Number(fallback[1]) : null;
+} ///
+
 module.exports = {
   data: new SlashCommandSubcommandBuilder()
     .setName("send")
@@ -30,10 +56,74 @@ module.exports = {
         .setName('file')
         .setDescription("Attach the delivery file for the package")
         .setRequired(true)
-    )
+    ),
 
   async execute(interaction) {
-    s
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    const packId = interaction.options.getString("package");
+    const forumChoice = interaction.options.getString("forum");
+    const image = interaction.options.getAttachment("image");
+    const file = interaction.options.getAttachment("file");
+
+    const data = await package.findOne({ packId: packId });
+    if (!data) {
+        return interaction.editReply({
+            content: "<:crossmark:1457408456980959486> POST_FAILED: Invalid Pack ID!"
+        });
+    }
+    if (!data.assetId) {
+        data.assetId = extractAssetId(data.purchaselink);
+        await data.save();
+    }
+
+    const forumChannels = {
+        liveries: 1457165386783920239,
+        clothing: 1457165388872679486,
+        code: 1457165391695450132
+    };
+    const forum = await interaction.client.channels.fetch(forumChannels[forumChoice]);
+    const post = await forum.threads.create({
+        name: data.name,
+        message: { files: [image.url] }
+    });
+
+    const embed = new EmbedBuilder()
+        .setDescription(`## [${data.name}](${data.purchaselink})\n**Assembler:** <@${data.packerId}>\n**Price:** ${data.price}R$`)
+        .addFields(
+            { name: "‎ ", value: data.itemsList.map((item) => `${item}`).join("\n"), inline: false }
+        )
+        .setImage('attachment://footer.png')
+        .setColor(0x393A41);
+    const claimButton = new ButtonBuilder()
+        .setLabel("Claim Package")
+        .setEmoji("☑️")
+        .setStyle(ButtonStyle.Danger)
+        .setCustomId(`pack_claim_${data.packId}`);
+    const row = new ActionRowBuilder().addComponents(claimButton);
+
+    const attachment = [
+        new AttachmentBuilder(
+            path.join(__dirname, '../../database/assets/banner_footer.png'),
+            { name: 'footer.png' }
+        )
+    ];
+
+    const message = await post.send({
+        embeds: [embed],
+        components: [row],
+        files: attachment
+    });
+
+    data.messageId = message.id;
+    data.downloadFile = {
+        url: file.url,
+        name: file.name,
+    };
+    await data.save();
+
+    return interaction.editReply({
+        content: `<:checkmark:1457408406607364257> PACK_POSTED! Pack Published To ${post.url}!`
+    });
 
   }
 };

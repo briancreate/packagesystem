@@ -25,7 +25,7 @@ module.exports = {
           : pkg.name;
         const packer = pkg.packerId ? `<@${pkg.packerId}>` : "N/A";
         const asset = pkg.assetId ? `\`${pkg.assetId}\`` : "N/A";
-        return `**${rank}** ${title} - By ${packer}\nASSET ID: ${asset} - PRICE: ${pkg.price}`;
+        return `**${rank}** ${title} - By ${packer}\nASSET ID: ${asset} - PRICE: ${pkg.price}\nPACKAGE ID: ${pkg.packId}`;
     });
 
     const embed = new EmbedBuilder()
