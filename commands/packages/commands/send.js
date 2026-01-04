@@ -1,4 +1,5 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
+const { AttachmentBuilder, SlashCommandSubcommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
+const path = require('path');
 const package = require('../../../database/schemas/package');
 const forumChannels = {
     liveries: 1457165386783920239,
