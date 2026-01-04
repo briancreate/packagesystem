@@ -32,8 +32,7 @@ module.exports = {
         .setTitle(`${packs.length} Loaded Packages`)
         .setColor(0x393A41)
         .setDescription(lines.join("\n\n"))
-        .setImage('attachment://banner.png')
-        .setFooter(`Viewing ${limit.length} of ${packs.length} Packages`);
+        .setImage('attachment://banner.png');
 
     const attachment = [
         new AttachmentBuilder(
