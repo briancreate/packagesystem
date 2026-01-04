@@ -2,9 +2,9 @@ const { AttachmentBuilder, SlashCommandSubcommandBuilder, EmbedBuilder, ActionRo
 const path = require('path');
 const package = require('../../../database/schemas/package');
 const forumChannels = {
-    liveries: 1457165386783920239,
-    clothing: 1457165388872679486,
-    code: 1457165391695450132
+  liveries: process.env.FORUM_LIVERIES,
+  clothing: process.env.FORUM_CLOTHING,
+  code: process.env.FORUM_BOTCODE
 };
 
 // Helper Functions
@@ -91,10 +91,14 @@ module.exports = {
         message: { files: [image.url] }
     });
 
+    const items = data.items
+        ? data.items.split(/\r?\n|,/).map(i => `• ${i.trim()}`).join("\n")
+        : "‎ ";
+
     const embed = new EmbedBuilder()
         .setDescription(`## [${data.name}](${data.purchaselink})\n**Assembler:** <@${data.packerId}>\n**Price:** ${data.price}R$`)
         .addFields(
-            { name: "‎ ", value: data.itemsList.map((item) => `${item}`).join("\n"), inline: false }
+            { name: "‎ ", value: items, inline: false }
         )
         .setImage('attachment://footer.png')
         .setColor(0x393A41);
