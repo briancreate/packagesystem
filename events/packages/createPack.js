@@ -1,5 +1,6 @@
 const { Events, MessageFlags } = require('discord.js');
 const package = require('../../database/schemas/package');
+const crypto = require("node:crypto");
 
 // Helper Functions
 function trimString(value) {
