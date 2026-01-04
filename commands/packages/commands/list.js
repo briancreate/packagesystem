@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   data: new SlashCommandSubcommandBuilder()
     .setName("list")
-    .setDescription("..."),
+    .setDescription("‎ "),
 
   async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral});

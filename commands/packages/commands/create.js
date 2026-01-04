@@ -3,7 +3,7 @@ const { Events, SlashCommandSubcommandBuilder, ModalBuilder, TextInputBuilder, T
 module.exports = {
   data: new SlashCommandSubcommandBuilder()
     .setName("create")
-    .setDescription("..."),
+    .setDescription("‎ "),
 
   async execute(interaction) {
 
