@@ -3,19 +3,22 @@ const { Events, SlashCommandSubcommandBuilder, ModalBuilder, TextInputBuilder, T
 module.exports = {
   data: new SlashCommandSubcommandBuilder()
     .setName("create")
-    .setDescription("Pack Management.."),
+    .setDescription("Pack Management..")
+    .addStringOption((option) =>
+      option
+        .setName('name')
+        .setDescription("The name of the package you're creating")
+        .setRequired(true)
+    ),
 
   async execute(interaction) {
 
+    const name = interaction.options.getString("name");
+
     const modal = new ModalBuilder()
-      .setCustomId("pack:modal:create")
+      .setCustomId(`pack_create_${name}`)
       .setTitle("Create Package");
-    
-    const name = new TextInputBuilder()
-      .setCustomId("pack:name")
-      .setLabel("Package Name")
-      .setStyle(TextInputStyle.Short)
-      .setRequired(true);
+
     const link = new TextInputBuilder()
       .setCustomId("pack:link")
       .setLabel("Purchase Link")
@@ -45,7 +48,6 @@ module.exports = {
       .setRequired(true);
 
     modal.addComponents(
-        new ActionRowBuilder().addComponents(name),
         new ActionRowBuilder().addComponents(link),
         new ActionRowBuilder().addComponents(pluslink),
         new ActionRowBuilder().addComponents(packer),

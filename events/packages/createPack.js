@@ -60,10 +60,10 @@ module.exports = {
   once: false,
 
   async execute(interaction) {
-    if (interaction.isModalSubmit() && interaction.customId === "pack:modal:create") {
-
+    if (interaction.isModalSubmit() && interaction.customId.startsWith("pack_create_")) {
+      
         // Get Options
-        const packName = interaction.fields.getTextInputValue("pack:name");
+        const [_, __, packName] = interaction.customId.split("_");
         const purchaseLink = interaction.fields.getTextInputValue("pack:link");
         const purchasePlusLink = interaction.fields.getTextInputValue("pack:pluslink");
         const packer = interaction.fields.getTextInputValue("pack:packer");
