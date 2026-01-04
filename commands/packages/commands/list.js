@@ -18,7 +18,7 @@ module.exports = {
     }
 
     const limit = packs.slice(0, 8);
-    const lines = limited.map((pkg, index) => {
+    const lines = limit.map((pkg, index) => {
         const rank = index + 1;
         const title = pkg.purchaseLink
           ? `[${pkg.name}](${pkg.purchaselink})`
