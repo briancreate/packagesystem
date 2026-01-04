@@ -4,6 +4,7 @@ const x = new mongoose.Schema(
   {
     name: { type: String, required: true },
     purchaselink: { type: String, required: true },
+    purchasepluslink: { type: String, required: true },
     assetId: { type: Number, required: true },
     packerId: { type: String, required: true },
     price: { type: String, required: true },
