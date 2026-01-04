@@ -1,5 +1,5 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
-const package = require('../../database/schemas/package');
+const package = require('../../../database/schemas/package');
 
 // Helper Functions
 function extractAssetId(raw) {

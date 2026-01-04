@@ -1,5 +1,5 @@
 const { SlashCommandSubcommandBuilder, MessageFlags, EmbedBuilder, AttachmentBuilder } = require('discord.js');
-const package = require('../../database/schemas/package');
+const package = require('../../../database/schemas/package');
 const path = require('path');
 
 module.exports = {
