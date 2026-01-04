@@ -92,11 +92,11 @@ module.exports = {
     });
 
     const items = data.items
-        ? data.items.split(/\r?\n|,/).map(i => `• ${i.trim()}`).join("\n")
+        ? data.items.split(/\r?\n|,/).map(i => `${i.trim()}`).join("\n")
         : "‎ ";
 
     const embed = new EmbedBuilder()
-        .setDescription(`## [${data.name}](${data.purchaselink})\n**Assembler:** <@${data.packerId}>\n**Price:** ${data.price}R$`)
+        .setDescription(`## [${data.name}](${data.purchaselink})\n<:person:1457455676212252693> **Assembler:** <@${data.packerId}>\n<:logo:1457182362956730540> **Price:** ${data.price}R$`)
         .addFields(
             { name: "‎ ", value: items, inline: false }
         )
@@ -104,7 +104,7 @@ module.exports = {
         .setColor(0x393A41);
     const claimButton = new ButtonBuilder()
         .setLabel("Claim Package")
-        .setEmoji("☑️")
+        .setEmoji("<:click:1457456025383735378>")
         .setStyle(ButtonStyle.Danger)
         .setCustomId(`pack_claim_${data.packId}`);
     const row = new ActionRowBuilder().addComponents(claimButton);
