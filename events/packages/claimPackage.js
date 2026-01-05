@@ -231,16 +231,9 @@ module.exports = {
                     components: components,
                     flags: MessageFlags.IsComponentsV2
                 });
-            } catch {
-                const components = [
-                        new ContainerBuilder()
-                            .addTextDisplayComponents(
-                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"),
-                            ),
-                ];
+            } catch (error) {
                 await interaction.editReply({
-                    components: components,
-                    flags: MessageFlags.IsComponentsV2
+                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"
                 });
             }
             ///

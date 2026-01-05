@@ -10,7 +10,7 @@ module.exports = {
             const components = [
                     new ContainerBuilder()
                         .addTextDisplayComponents(
-                            new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> You denied our terms which has resulted in you being unable to purchase this pack!"),
+                            new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> You must accept our terms to purchase this package!"),
                         ),
             ];
             await interaction.editReply({

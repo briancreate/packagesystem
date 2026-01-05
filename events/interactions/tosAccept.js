@@ -15,7 +15,7 @@ module.exports = {
                 const components = [
                         new ContainerBuilder()
                             .addTextDisplayComponents(
-                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> You accepted our terms! Click the claim package button to restart!"),
+                                new TextDisplayBuilder().setContent("<:checkmark:1457408406607364257> You accepted our terms and you're now able to purchase packs!"),
                             ),
                 ];
                 await interaction.editReply({
