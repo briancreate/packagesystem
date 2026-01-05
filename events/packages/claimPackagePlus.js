@@ -27,40 +27,20 @@ module.exports = {
     once: false,
 
     async execute(interaction) {
-        if (!interaction.isButton() && interaction.customId.startsWith("pack_claim_")) {
-            const [_, __, packId] = interaction.customId.split("_");
+        if (!interaction.isButton() && interaction.customId.startsWith("pack_plus_claim_")) {
+            const [_, __, ___, packId] = interaction.customId.split("_");
 
             await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
             const DOCK_API = process.env.DOCK_API;
             const CUSTOMER_ROLE_ID = process.env.ROLE_ID_CUSTOMER;
-            const PREMIUM_ROLE_ID = process.env.ROLE_ID_PREMIUM;
-            const VERIFIED_ROLE_ID = process.env.ROLE_ID_VERIFIED;
-            const TERMS_ROLE_ID = process.env.ROLE_ID_TERMS;
-
             const member = await interaction.guild.members.fetch(interaction.user.id);
 
             // Confirm Data
             const data = await package.findOne({ packId: packId });
             if (!data) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DATA"
-                });
-                return;
-            }
-
-            // Verified Check
-            if (!member.roles.cache.some(r => r.name === VERIFIED_ROLE_ID || r.id === VERIFIED_ROLE_ID)) {
-                await interaction.editReply({
-                    content: ""
-                });
-                return;
-            }
-
-            // Terms Check
-            if (!member.roles.cache.some(r => r.name === TERMS_ROLE_ID || r.id === TERMS_ROLE_ID)) {
-                await interaction.editReply({
-                    content: ""
+                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DATA"
                 });
                 return;
             }
@@ -71,29 +51,22 @@ module.exports = {
                 interaction,
                 DOCK_API
             );
-            const assetId = data.assetId;
-
-             if (!robloxId) {
+            const plusassetId = data.plusassetId;
+            
+            if (!robloxId) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_RBLX"
+                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_RBLX"
                 });
                 return;
             }
-            if (!assetId) {
+            if (!plusassetId) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_ASSET"
+                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:P_ASSET"
                 });
                 return;
             }
 
-            // If Premium
-            if (member.roles.cache.some(r => r.name === PREMIUM_ROLE_ID || r.id === PREMIUM_ROLE_ID)) {
-                // send embed
-                return;
-            }
-
-            // If Default
-            const ownsPackage = await userHasAsset(robloxId, assetId);
+            const ownsPackage = await userHasAsset(robloxId, plusassetId);
             if (!ownsPackage) {
                 const components = [
                         new ContainerBuilder()
@@ -109,7 +82,7 @@ module.exports = {
                                             .setURL("https://discord.com/channels/1369377209864949770/1457165374884810813")
                                     )
                                     .addTextDisplayComponents(
-                                        new TextDisplayBuilder().setContent(`You do not own this package! This is either because you have not bought it yet, which you can do by [**clicking here**](${data.purchaselink}) or because your Roblox inventory visibility is set to private.`),
+                                        new TextDisplayBuilder().setContent(`You do not own this package! This is either because you have not bought it yet, which you can do by [**clicking here**](${data.purchasepluslink}) or because your Roblox inventory visibility is set to private.`),
                                     ),
                             ),
                 ];
@@ -121,7 +94,7 @@ module.exports = {
             }
             if (!data.downloadFile) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_FILE"
+                    content: "<:crossmark:1457408456980959486> Ooops! Looks like this package has expired! Please try again later. ERR:P_FILE"
                 });
             }
 
@@ -149,10 +122,10 @@ module.exports = {
                 });
             } catch {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"
+                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DM"
                 });
             }
-            ///
+
 
         }
     }
