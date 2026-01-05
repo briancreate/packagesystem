@@ -10,7 +10,7 @@ const x = new mongoose.Schema(
     plusassetId: { type: Number, required: true },
     packerId: { type: String, required: true },
     price: { type: String, required: true },
-    items: { type: String, required: true },
+    items: { type: String, required: false },
     messageId: { type: String, required: false },
     downloadFile: {
       url: { type: String, required: false },

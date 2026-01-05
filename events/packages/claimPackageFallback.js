@@ -28,7 +28,7 @@ module.exports = {
     once: false,
 
     async execute(interaction) {
-        if (!interaction.isButton() && interaction.customId.startsWith("pack_claim2_")) {
+        if (interaction.isButton() && interaction.customId.startsWith("pack_claim2_")) {
             const [_, __, packId] = interaction.customId.split("_");
 
             await interaction.deferReply({ flags: MessageFlags.Ephemeral });

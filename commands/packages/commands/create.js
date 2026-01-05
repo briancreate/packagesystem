@@ -72,7 +72,7 @@ module.exports = {
         .setDescription("The name of the package you're creating")
         .setRequired(true)
     )
-    .addIntegerOption((option) =>
+    .addStringOption((option) =>
       option
         .setName('price_integer')
         .setDescription("The name of the package you're creating")
@@ -94,7 +94,7 @@ module.exports = {
   async execute(interaction) {
     const name = interaction.options.getString('name');
     const assembler = interaction.options.getString('assembler_user_id');
-    const price = interaction.options.getInteger('price_integer');
+    const price = interaction.options.getString('price_integer');
     const purchase_link_default = interaction.options.getString('purchase_link_default');
     const purchase_link_discount = interaction.options.getString('purchase_link_discount');
 
@@ -134,7 +134,7 @@ module.exports = {
             purchasepluslink: raw.purchase_link_discount,
             assetId: assetId,
             plusassetId: plusassetId,
-            packerId: packerId,
+            packerId: assemblerId,
             price: raw.price,
         });
         await interaction.reply({
