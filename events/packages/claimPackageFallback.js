@@ -271,7 +271,7 @@ module.exports = {
                 const dm = await interaction.user.send({
                     components: components2,
                     flags: MessageFlags.IsComponentsV2,
-                    files: [attachment, fileAttachment]
+                    files: [attachment, ...fileAttachment]
                 });                    
                 data.claims = data.claims ?? [];
                 data.claims.push({
@@ -294,6 +294,7 @@ module.exports = {
                     flags: MessageFlags.IsComponentsV2
                 });
             } catch (error) {
+                console.log("[ERROR]", error);
                 const components = [
                         new ContainerBuilder()
                             .addTextDisplayComponents(
