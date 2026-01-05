@@ -3,6 +3,7 @@ const package = require('../../database/schemas/package');
 const { getRobloxInfo } = require('../../database/utilities/packageAPI');
 const path = require('path');
 require('dotenv').config({ quiet: true });
+const { get } = require("http");
 
 // Helper
 async function userHasAsset(robloxId, assetId) {

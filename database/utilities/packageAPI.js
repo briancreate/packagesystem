@@ -1,4 +1,5 @@
 const { MessageFlags, EmbedBuilder } = require("discord.js");
+require('dotenv').config({ quiet: true });
 
 const RATE_LIMIT_DELAY = 2000;
 const CACHE_TTL_MS = 5 * 60 * 1000;
@@ -14,7 +15,7 @@ async function processQueue() {
   if (isProcessing || requestQueue.length === 0) return;
 
   isProcessing = true;
-  const { userId, interaction, KEY, resolve, reject } = requestQueue.shift();
+  const { userId, KEY, resolve, reject } = requestQueue.shift();
 
   try {
     const cached = robloxCache.get(userId);
@@ -26,7 +27,7 @@ async function processQueue() {
       return;
     }
 
-    const guildId = interaction.guildId;
+    const guildId = process.env.GUILDID;
 
     const response = await fetch(
       `https://api.docksys.xyz/api/v1/public/discord-to-roblox?discordId=${userId}&guildId=${guildId}`,
@@ -132,9 +133,9 @@ async function processQueue() {
   processQueue();
 }
 
-async function getRobloxInfo(userId, interaction, KEY) {
+async function getRobloxInfo(userId, KEY) {
   return new Promise((resolve, reject) => {
-    requestQueue.push({ userId, interaction, KEY, resolve, reject });
+    requestQueue.push({ userId, KEY, resolve, reject });
     processQueue();
   });
 }
