@@ -1,3 +1,4 @@
+const { TextDisplayBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, SeparatorBuilder, SeparatorSpacingSize, ContainerBuilder, Events, MessageFlags, AttachmentBuilder } = require('discord.js');
 const package = require('../../database/schemas/package');
 const { getRobloxInfo } = require('../../database/utilities/packageAPI');
 const path = require('path');
