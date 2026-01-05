@@ -27,8 +27,8 @@ module.exports = {
     once: false,
 
     async execute(interaction) {
-        if (!interaction.isButton() && interaction.customId.startsWith("pack_plus_claim_")) {
-            const [_, __, ___, packId] = interaction.customId.split("_");
+        if (!interaction.isButton() && interaction.customId.startsWith("pack_claim2_")) {
+            const [_, __, packId] = interaction.customId.split("_");
 
             await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
@@ -45,13 +45,14 @@ module.exports = {
 
             const DOCK_API = process.env.DOCK_API;
             const CUSTOMER_ROLE_ID = process.env.ROLE_ID_CUSTOMER;
+
             const member = await interaction.guild.members.fetch(interaction.user.id);
 
             // Confirm Data
             const data = await package.findOne({ packId: packId });
             if (!data) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DATA"
+                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DATA"
                 });
                 return;
             }
@@ -62,22 +63,22 @@ module.exports = {
                 interaction,
                 DOCK_API
             );
-            const plusassetId = data.plusassetId;
-            
-            if (!robloxId) {
+            const assetId = data.assetId;
+
+             if (!robloxId) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_RBLX"
+                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_RBLX"
                 });
                 return;
             }
-            if (!plusassetId) {
+            if (!assetId) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:P_ASSET"
+                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_ASSET"
                 });
                 return;
             }
 
-            const ownsPackage = await userHasAsset(robloxId, plusassetId);
+            const ownsPackage = await userHasAsset(robloxId, assetId);
             if (!ownsPackage) {
                 const components = [
                         new ContainerBuilder()
@@ -93,7 +94,7 @@ module.exports = {
                                             .setURL("https://discord.com/channels/1369377209864949770/1457165374884810813")
                                     )
                                     .addTextDisplayComponents(
-                                        new TextDisplayBuilder().setContent(`You do not own this package! This is either because you have not bought it yet, which you can do by [**clicking here**](${data.purchasepluslink}) or because your Roblox inventory visibility is set to private.`),
+                                        new TextDisplayBuilder().setContent(`You do not own this package! This is either because you have not bought it yet, which you can do by [**clicking here**](${data.purchaselink}) or because your Roblox inventory visibility is set to private.`),
                                     ),
                             ),
                 ];
@@ -105,7 +106,7 @@ module.exports = {
             }
             if (!data.downloadFile) {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Ooops! Looks like this package has expired! Please try again later. ERR:P_FILE"
+                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_FILE"
                 });
             }
 
@@ -140,10 +141,10 @@ module.exports = {
                 });
             } catch {
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DM"
+                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"
                 });
             }
-
+            ///
 
         }
     }

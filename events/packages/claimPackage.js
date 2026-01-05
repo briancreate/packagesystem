@@ -32,6 +32,17 @@ module.exports = {
 
             await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
+            const components = [
+                    new ContainerBuilder()
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent("Preparing the ultimate package delivery.."),
+                        ),
+            ];
+            await interaction.editReply({
+                components: components,
+                flags: MessageFlags.IsComponentsV2
+            });
+
             const DOCK_API = process.env.DOCK_API;
             const CUSTOMER_ROLE_ID = process.env.ROLE_ID_CUSTOMER;
             const PREMIUM_ROLE_ID = process.env.ROLE_ID_PREMIUM;

@@ -81,6 +81,10 @@ module.exports = {
         data.assetId = extractAssetId(data.purchaselink);
         await data.save();
     }
+    if (!data.plusassetId) {
+        data.assetId = extractAssetId(data.purchasepluslink);
+        await data.save();
+    }
 
     const forum = await interaction.guild.channels.fetch(
         forumChannels[forumChoice]
