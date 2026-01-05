@@ -122,7 +122,7 @@ module.exports = {
             }
 
             // Get Info
-            const robloxId = getRobloxInfo(
+            const robloxId = await getRobloxInfo(
                 interaction.user.id,
                 DOCK_API
             );
@@ -232,8 +232,15 @@ module.exports = {
                     flags: MessageFlags.IsComponentsV2
                 });
             } catch {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
             }
             ///
