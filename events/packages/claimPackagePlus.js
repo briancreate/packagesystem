@@ -37,7 +37,7 @@ module.exports = {
             const components = [
                     new ContainerBuilder()
                         .addTextDisplayComponents(
-                            new TextDisplayBuilder().setContent("Preparing the ultimate package delivery.."),
+                            new TextDisplayBuilder().setContent("<a:loading:1457777985431015618> Preparing the ultimate package delivery.."),
                         ),
             ];
             await interaction.editReply({
@@ -91,7 +91,7 @@ module.exports = {
                                             .setURL("https://discord.com/channels/1369377209864949770/1457165374884810813")
                                     )
                                     .addTextDisplayComponents(
-                                        new TextDisplayBuilder().setContent(`You do not own this package! This is either because you have not bought it yet, which you can do by [**clicking here**](${data.purchasepluslink}) or because your Roblox inventory visibility is set to private.`),
+                                        new TextDisplayBuilder().setContent(`<a:loading:1457777985431015618> You do not own this package! This is either because you have not bought it yet, which you can do by [**clicking here**](${data.purchasepluslink}) or because your Roblox inventory visibility is set to private.`),
                                     ),
                             ),
                 ];
