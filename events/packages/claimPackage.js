@@ -51,16 +51,68 @@ module.exports = {
 
             // Verified Check
             if (!member.roles.cache.some(r => r.name === VERIFIED_ROLE_ID || r.id === VERIFIED_ROLE_ID)) {
+                const components = [
+                        new ContainerBuilder()
+                            .addSectionComponents(
+                                new SectionBuilder()
+                                    .setButtonAccessory(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Link)
+                                            .setLabel("Verify")
+                                            .setEmoji({
+                                                name: "<:click:1457456025383735378>",
+                                            })
+                                            .setURL("https://discord.com/channels/1369377209864949770/1457182533518360596")
+                                    )
+                                    .addTextDisplayComponents(
+                                        new TextDisplayBuilder().setContent(`<:crossmark:1457408456980959486> You are not verified! Verify your account and try again.`),
+                                    ),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: ""
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
 
             // Terms Check
             if (!member.roles.cache.some(r => r.name === TERMS_ROLE_ID || r.id === TERMS_ROLE_ID)) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("## Unaccepted Terms!\nWe have detected that you are yet to accept our terms for pack purchases.\nReview the terms and accept them to be able to use our systems."),
+                            )
+                            .addSeparatorComponents(
+                                new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+                            )
+                            .addActionRowComponents(
+                                new ActionRowBuilder()
+                                    .addComponents(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Success)
+                                            .setLabel("Accept")
+                                            .setEmoji({
+                                                name: "<:checkmark:1457408406607364257>",
+                                            })
+                                            .setCustomId("tos_accept"),
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Danger)
+                                            .setLabel("Deny")
+                                            .setEmoji({
+                                                name: "<:crossmark:1457408456980959486>",
+                                            })
+                                            .setCustomId("tos_deny"),
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Link)
+                                            .setLabel("Our Terms")
+                                            .setURL("https://google.com"),
+                                    ),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: ""
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
@@ -88,7 +140,38 @@ module.exports = {
 
             // If Premium
             if (member.roles.cache.some(r => r.name === PREMIUM_ROLE_ID || r.id === PREMIUM_ROLE_ID)) {
-                // send embed
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("## Discount Detected!\nWe have detected that you are eligible for a **15% Discount**."),
+                            )
+                            .addSeparatorComponents(
+                                new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+                            )
+                            .addActionRowComponents(
+                                new ActionRowBuilder()
+                                    .addComponents(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Success)
+                                            .setLabel("Continue")
+                                            .setEmoji({
+                                                name: "<:checkmark:1457408406607364257>",
+                                            })
+                                            .setCustomId(`pack_plus_claim_${packId}`),
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Danger)
+                                            .setLabel("Cancel")
+                                            .setEmoji({
+                                                name: "<:crossmark:1457408456980959486>",
+                                            })
+                                            .setCustomId(`pack_claim2_${packId}`),
+                                    ),
+                            ),
+                ];
+                await interaction.editReply({
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
+                });
                 return;
             }
 
@@ -144,8 +227,15 @@ module.exports = {
                 if (member && CUSTOMER_ROLE_ID) {
                     await member.roles.add(CUSTOMER_ROLE_ID);
                 }
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:checkmark:1457408406607364257> The package has been delivered to your DM's! Need help? Open a ticket!"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "claimed"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
             } catch {
                 await interaction.editReply({

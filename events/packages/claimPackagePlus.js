@@ -117,8 +117,15 @@ module.exports = {
                 if (member && CUSTOMER_ROLE_ID) {
                     await member.roles.add(CUSTOMER_ROLE_ID);
                 }
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:checkmark:1457408406607364257> The package has been delivered to your DM's! Need help? Open a ticket!"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "claimed"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
             } catch {
                 await interaction.editReply({
