@@ -47,14 +47,83 @@ module.exports = {
 
             const DOCK_API = process.env.DOCK_API;
             const CUSTOMER_ROLE_ID = process.env.ROLE_ID_CUSTOMER;
+            const PREMIUM_ROLE_ID = process.env.ROLE_ID_PREMIUM;
+            const VERIFIED_ROLE_ID = process.env.ROLE_ID_VERIFIED;
+            const TERMS_ROLE_ID = process.env.ROLE_ID_TERMS;
 
             const member = await interaction.guild.members.fetch(interaction.user.id);
 
             // Confirm Data
             const data = await package.findOne({ packId: packId });
             if (!data) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DATA"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DATA"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
+                });
+                return;
+            }
+
+            // Verified Check
+            if (!member.roles.cache.some(r => r.name === VERIFIED_ROLE_ID || r.id === VERIFIED_ROLE_ID)) {
+                const components = [
+                        new ContainerBuilder()
+                            .addSectionComponents(
+                                new SectionBuilder()
+                                    .setButtonAccessory(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Link)
+                                            .setLabel("Verify")
+                                            .setURL("https://discord.com/channels/1369377209864949770/1457182533518360596")
+                                    )
+                                    .addTextDisplayComponents(
+                                        new TextDisplayBuilder().setContent(`<:crossmark:1457408456980959486> You are not verified! Verify your account and try again.`),
+                                    ),
+                            ),
+                ];
+                await interaction.editReply({
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
+                });
+                return;
+            }
+
+            // Terms Check
+            if (!member.roles.cache.some(r => r.name === TERMS_ROLE_ID || r.id === TERMS_ROLE_ID)) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("## Unaccepted Terms!\nWe have detected that you are yet to accept our terms for pack purchases.\nReview the terms and accept them to be able to use our systems."),
+                            )
+                            .addSeparatorComponents(
+                                new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+                            )
+                            .addActionRowComponents(
+                                new ActionRowBuilder()
+                                    .addComponents(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Success)
+                                            .setLabel("Accept")
+                                            .setCustomId("tos_accept"),
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Danger)
+                                            .setLabel("Deny")
+                                            .setCustomId("tos_deny"),
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Link)
+                                            .setLabel("Our Terms")
+                                            .setURL("https://google.com"),
+                                    ),
+                            ),
+                ];
+                await interaction.editReply({
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
@@ -67,18 +136,64 @@ module.exports = {
             const assetId = data.assetId;
 
              if (!robloxId) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_RBLX"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_RBLX"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
             if (!assetId) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_ASSET"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_ASSET"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
 
+            // If Premium
+            if (member.roles.cache.some(r => r.name === PREMIUM_ROLE_ID || r.id === PREMIUM_ROLE_ID)) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("## Discount Detected!\nWe have detected that you are eligible for a **15% Discount**."),
+                            )
+                            .addSeparatorComponents(
+                                new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+                            )
+                            .addActionRowComponents(
+                                new ActionRowBuilder()
+                                    .addComponents(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Success)
+                                            .setLabel("Continue")
+                                            .setCustomId(`pack_plus_claim_${packId}`),
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Danger)
+                                            .setLabel("Cancel")
+                                            .setCustomId(`pack_claim2_${packId}`),
+                                    ),
+                            ),
+                ];
+                await interaction.editReply({
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
+                });
+                return;
+            }
+
+            // If Default
             const ownsPackage = await userHasAsset(robloxId, assetId);
             if (!ownsPackage) {
                 const components = [
@@ -103,8 +218,15 @@ module.exports = {
                 return;
             }
             if (!data.downloadFile) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_FILE"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:D_FILE"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
             }
 
@@ -164,7 +286,7 @@ module.exports = {
                 const components = [
                         new ContainerBuilder()
                             .addTextDisplayComponents(
-                                new TextDisplayBuilder().setContent("<:checkmark:1457408406607364257> The package has been delivered to your DM's! Need help? Open a ticket!"),
+                                new TextDisplayBuilder().setContent("<:checkmark:1457408406607364257> The package has been delivered to your DM's, Enjoy!"),
                             ),
                 ];
                 await interaction.editReply({
@@ -172,8 +294,15 @@ module.exports = {
                     flags: MessageFlags.IsComponentsV2
                 });
             } catch (error) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:D_DM"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
             }
             ///

@@ -52,8 +52,15 @@ module.exports = {
             // Confirm Data
             const data = await package.findOne({ packId: packId });
             if (!data) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DATA"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DATA"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
@@ -66,14 +73,28 @@ module.exports = {
             const plusassetId = data.plusassetId;
             
             if (!robloxId) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_RBLX"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_RBLX"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
             if (!plusassetId) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:P_ASSET"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Oops! Looks like this package has expired! Please try again later. ERR:P_ASSET"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
                 return;
             }
@@ -102,8 +123,15 @@ module.exports = {
                 return;
             }
             if (!data.downloadFile) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Ooops! Looks like this package has expired! Please try again later. ERR:P_FILE"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Ooops! Looks like this package has expired! Please try again later. ERR:P_FILE"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
             }
 
@@ -163,7 +191,7 @@ module.exports = {
                 const components = [
                         new ContainerBuilder()
                             .addTextDisplayComponents(
-                                new TextDisplayBuilder().setContent("<:checkmark:1457408406607364257> The package has been delivered to your DM's! Need help? Open a ticket!"),
+                                new TextDisplayBuilder().setContent("<:checkmark:1457408406607364257> The package has been delivered to your DM's, Enjoy!"),
                             ),
                 ];
                 await interaction.editReply({
@@ -171,8 +199,15 @@ module.exports = {
                     flags: MessageFlags.IsComponentsV2
                 });
             } catch (error) {
+                const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DM"),
+                            ),
+                ];
                 await interaction.editReply({
-                    content: "<:crossmark:1457408456980959486> Hmm.. Something went wrong! Please try again later. ERR:P_DM"
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2
                 });
             }
 
