@@ -124,7 +124,6 @@ module.exports = {
             // Get Info
             const robloxId = getRobloxInfo(
                 interaction.user.id,
-                interaction,
                 DOCK_API
             );
             const assetId = data.assetId;
