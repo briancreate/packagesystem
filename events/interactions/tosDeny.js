@@ -5,7 +5,7 @@ module.exports = {
     once: false,
 
     async execute(interaction) {
-        if (!interaction.isButton() && interaction.customId === "tos_deny") {
+        if (interaction.isButton() && interaction.customId === "tos_deny") {
             const components = [
                     new ContainerBuilder()
                         .addTextDisplayComponents(

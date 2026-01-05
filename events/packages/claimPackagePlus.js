@@ -88,9 +88,6 @@ module.exports = {
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Link)
                                             .setLabel("Get Help")
-                                            .setEmoji({
-                                                name: "<:click:1457456025383735378>",
-                                            })
                                             .setURL("https://discord.com/channels/1369377209864949770/1457165374884810813")
                                     )
                                     .addTextDisplayComponents(

@@ -71,9 +71,6 @@ module.exports = {
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Link)
                                             .setLabel("Verify")
-                                            .setEmoji({
-                                                name: "<:click:1457456025383735378>",
-                                            })
                                             .setURL("https://discord.com/channels/1369377209864949770/1457182533518360596")
                                     )
                                     .addTextDisplayComponents(
@@ -104,16 +101,10 @@ module.exports = {
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Success)
                                             .setLabel("Accept")
-                                            .setEmoji({
-                                                name: "<:checkmark:1457408406607364257>",
-                                            })
                                             .setCustomId("tos_accept"),
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Danger)
                                             .setLabel("Deny")
-                                            .setEmoji({
-                                                name: "<:crossmark:1457408456980959486>",
-                                            })
                                             .setCustomId("tos_deny"),
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Link)
@@ -166,16 +157,10 @@ module.exports = {
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Success)
                                             .setLabel("Continue")
-                                            .setEmoji({
-                                                name: "<:checkmark:1457408406607364257>",
-                                            })
                                             .setCustomId(`pack_plus_claim_${packId}`),
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Danger)
                                             .setLabel("Cancel")
-                                            .setEmoji({
-                                                name: "<:crossmark:1457408456980959486>",
-                                            })
                                             .setCustomId(`pack_claim2_${packId}`),
                                     ),
                             ),
@@ -198,9 +183,6 @@ module.exports = {
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Link)
                                             .setLabel("Get Help")
-                                            .setEmoji({
-                                                name: "<:click:1457456025383735378>",
-                                            })
                                             .setURL("https://discord.com/channels/1369377209864949770/1457165374884810813")
                                     )
                                     .addTextDisplayComponents(

@@ -6,7 +6,7 @@ module.exports = {
     once: false,
 
     async execute(interaction) {
-        if (!interaction.isButton() && interaction.customId === "tos_accept") {
+        if (interaction.isButton() && interaction.customId === "tos_accept") {
             await interaction.deferReply({ flags: MessageFlags.Ephemeral });
             const member = await interaction.guild.members.fetch(interaction.user.id);
             termsrole = process.env.ROLE_ID_TERMS;
