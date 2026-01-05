@@ -1,4 +1,4 @@
-const { MediaGalleryBuilder, MediaGalleryItemBuilder, SectionBuilder, TextDisplayBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, SeparatorBuilder, SeparatorSpacingSize, ContainerBuilder, Events, MessageFlags, AttachmentBuilder } = require('discord.js');
+const { FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, SectionBuilder, TextDisplayBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, SeparatorBuilder, SeparatorSpacingSize, ContainerBuilder, Events, MessageFlags, AttachmentBuilder } = require('discord.js');
 const package = require('../../database/schemas/package');
 const { getRobloxInfo } = require('../../database/utilities/packageAPI');
 const path = require('path');
@@ -271,7 +271,7 @@ module.exports = {
                 const dm = await interaction.user.send({
                     components: components2,
                     flags: MessageFlags.IsComponentsV2,
-                    files: [attachment, ...fileAttachment]
+                    files: [attachment, fileAttachment]
                 });                    
                 data.claims = data.claims ?? [];
                 data.claims.push({

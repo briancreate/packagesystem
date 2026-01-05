@@ -1,4 +1,4 @@
-const { MediaGalleryBuilder, MediaGalleryItemBuilder, SectionBuilder, TextDisplayBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, SeparatorBuilder, SeparatorSpacingSize, ContainerBuilder, Events, MessageFlags, AttachmentBuilder } = require('discord.js');
+const { FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, SectionBuilder, TextDisplayBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, SeparatorBuilder, SeparatorSpacingSize, ContainerBuilder, Events, MessageFlags, AttachmentBuilder } = require('discord.js');
 const package = require('../../database/schemas/package');
 const { getRobloxInfo } = require('../../database/utilities/packageAPI');
 const path = require('path');
@@ -98,7 +98,7 @@ module.exports = {
                 const components = [
                         new ContainerBuilder()
                             .addTextDisplayComponents(
-                                new TextDisplayBuilder().setContent("## Unaccepted Terms!\nWe have detected that you are yet to accept our terms for pack purchases.\nReview the terms and accept them to be able to use our systems."),
+                                new TextDisplayBuilder().setContent("## <:verify:1457859073402736671> Unaccepted Terms!\nWe have detected that you are yet to accept our terms for pack purchases.\nReview the terms and accept them to be able to use our systems."),
                             )
                             .addSeparatorComponents(
                                 new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
@@ -117,7 +117,7 @@ module.exports = {
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Link)
                                             .setLabel("Our Terms")
-                                            .setURL("https://google.com"),
+                                            .setURL("https://docs.google.com/document/d/17thwS9bT4hWUyLpnrYUASND3oT9TGjTCacX5P_RzXpk/edit?usp=sharing"),
                                     ),
                             ),
                 ];
@@ -167,7 +167,7 @@ module.exports = {
                 const components = [
                         new ContainerBuilder()
                             .addTextDisplayComponents(
-                                new TextDisplayBuilder().setContent("## Discount Detected!\nWe have detected that you are eligible for a **15% Discount**."),
+                                new TextDisplayBuilder().setContent("## <:discount:1457859101823467714> Discount Detected!\nWe have detected that you are eligible for a **15% Discount**."),
                             )
                             .addSeparatorComponents(
                                 new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
@@ -271,7 +271,7 @@ module.exports = {
                 const dm = await interaction.user.send({
                     components: components2,
                     flags: MessageFlags.IsComponentsV2,
-                    files: [attachment, ...fileAttachment]
+                    files: [attachment, fileAttachment]
                 });                    
                 data.claims = data.claims ?? [];
                 data.claims.push({
