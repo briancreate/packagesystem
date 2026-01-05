@@ -9,12 +9,12 @@ module.exports = {
             const components = [
                     new ContainerBuilder()
                         .addTextDisplayComponents(
-                            new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> You denied our terms which resulted in you being unable to purchase this pack."),
+                            new TextDisplayBuilder().setContent("<:crossmark:1457408456980959486> You denied our terms which has resulted in you being unable to purchase this pack!"),
                         ),
             ];
             await interaction.reply({
                 components: components,
-                flags: MessageFlags.IsComponentsV2
+                flags: MessageFlags.IsComponentsV2, MessageFlags.Ephemeral
             });
 
         }
