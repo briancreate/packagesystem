@@ -110,11 +110,45 @@ module.exports = {
             const fileAttachment = new AttachmentBuilder(data.downloadFile.url, {
                 name: data.downloadFile.name,
             });
+            const attachment = new AttachmentBuilder(
+                path.join(__dirname, '../../database/assets/banner_delivery.png'),
+                { name: 'banner.png' }
+            );
 
             // Deliver
             try {
+                const components2 = [
+                        new ContainerBuilder()
+                            .addMediaGalleryComponents(
+                                new MediaGalleryBuilder()
+                                    .addItems(
+                                        new MediaGalleryItemBuilder()
+                                            .setURL('attachment://banner.png'),
+                                    ),
+                            )
+                            .addFileComponents(
+                                new FileBuilder().setURL(`attachment://${data.downloadFile.name}`),
+                            )
+                            .addSeparatorComponents(
+                                new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+                            )
+                            .addSectionComponents(
+                                new SectionBuilder()
+                                    .setButtonAccessory(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Danger)
+                                            .setLabel("Leave a review!")
+                                            .setCustomId(`pack_review_${packId}`)
+                                    )
+                                    .addTextDisplayComponents(
+                                        new TextDisplayBuilder().setContent("Please consider leaving a review!\nNeed Support? Open a ticket at discord.gg/pulzepacks"),
+                                    ),
+                            ),
+                ];
                 const dm = await interaction.user.send({
-                    files: [fileAttachment]
+                    components: components2,
+                    flags: MessageFlags.IsComponentsV2,
+                    files: [attachment, fileAttachment]
                 });                    
                 data.claims = data.claims ?? [];
                 data.claims.push({
